@@ -1,6 +1,6 @@
 /**
- * Aryan Prajapati Portfolio — Interactive Scripts
- * Mobile menu, sticky glass header, scroll observer, and micro-interactions
+ * Aryan Prajapati Portfolio
+ * Navigation, mobile menu drawer, and scroll observer
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.querySelector('#header');
     const sections = document.querySelectorAll('section[id]');
 
-    // 1. Mobile Menu Toggle
+    // Mobile menu toggle
     if (menuBtn && navLinks) {
         menuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             navLinks.classList.toggle('active');
         });
 
-        // Close when clicking outside of menu
+        // Close on clicking outside
         document.addEventListener('click', (e) => {
             if (!navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
                 menuBtn.classList.remove('active');
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Close on nav link click
+        // Close on navigation link click
         navItems.forEach(item => {
             item.addEventListener('click', () => {
                 menuBtn.classList.remove('active');
@@ -35,9 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 2. Header Scroll Blur Effect
+    // Header shadow on scroll
     const handleScroll = () => {
-        if (window.scrollY > 40) {
+        if (window.scrollY > 30) {
             header?.classList.add('scrolled');
         } else {
             header?.classList.remove('scrolled');
@@ -47,19 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
-    // 3. Active Nav Link Tracking on Scroll
-    const observerOptions = {
-        root: null,
-        rootMargin: '-20% 0px -70% 0px',
-        threshold: 0
-    };
-
-    const sectionObserver = new IntersectionObserver((entries) => {
+    // Highlight active nav item on scroll
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const currentId = entry.target.getAttribute('id');
+                const id = entry.target.getAttribute('id');
                 navItems.forEach(link => {
-                    if (link.getAttribute('href') === `#${currentId}`) {
+                    if (link.getAttribute('href') === `#${id}`) {
                         link.classList.add('active');
                     } else {
                         link.classList.remove('active');
@@ -67,19 +61,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
-    }, observerOptions);
-
-    sections.forEach(section => sectionObserver.observe(section));
-
-    // 4. Subtle Card Mouse Glow Effect (Glassmorphism interaction)
-    const glassCards = document.querySelectorAll('.glass-card');
-    glassCards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
-        });
+    }, {
+        root: null,
+        rootMargin: '-20% 0px -70% 0px',
+        threshold: 0
     });
+
+    sections.forEach(sec => observer.observe(sec));
 });

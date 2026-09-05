@@ -830,3 +830,38 @@ section {
     }
 }
 
+/* Mobile Screen Responsive Fixes */
+@media (max-width: 768px) {
+    /* 1. Push Menu Icon (Three Bars) to the far right */
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #menu-icon {
+        margin-left: auto; /* Pushes the menu icon to the far right */
+        cursor: pointer;
+    }
+
+    /* 2. Center Icon and Date inside Education Card */
+    .education-card {
+        flex-direction: column;
+        align-items: center; /* Centers icon and content container */
+        text-align: center;
+    }
+
+    .education-icon {
+        margin: 0 auto 1rem auto; /* Centers the circular icon block */
+    }
+
+    .education-header {
+        flex-direction: column;
+        align-items: center; /* Centers title and date badge */
+        gap: 0.5rem;
+    }
+
+    .education-year {
+        margin: 0 auto; /* Centers the date badge */
+    }
+}
